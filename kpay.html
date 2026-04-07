@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Premium Wallet Cards</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --kbz-color: #1a4da1;
+            --wave-color: #f7d117;
+        }
+        body { font-family: 'Segoe UI', 'Pyidaungsu', sans-serif; background: #f0f2f5; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        
+        /* Card Preview Area */
+        #captureArea { padding: 10px; background: transparent; }
+        .card { width: 350px; height: 210px; border-radius: 18px; position: relative; color: white; padding: 20px; box-sizing: border-box; overflow: hidden; box-shadow: 0 12px 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; justify-content: space-between; }
+
+        /* KBZ Styles */
+        .kbz-1 { background: linear-gradient(135deg, #1a4da1, #0d2a5a); }
+        .kbz-2 { background: #1a4da1; border-left: 15px solid #ffcc00; }
+        .kbz-3 { background: radial-gradient(circle, #1e5bb9, #0a2558); }
+        .kbz-4 { background: #0d2a5a; border: 2px solid #1a4da1; }
+        .kbz-5 { background: linear-gradient(to right, #1a4da1, #4facfe); }
+
+        /* Wave Styles */
+        .wave-1 { background: linear-gradient(135deg, #f7d117, #e5bc00); color: #333; }
+        .wave-2 { background: #222; border-top: 10px solid #f7d117; }
+        .wave-3 { background: #f7d117; border-radius: 60px 15px 60px 15px; color: #333; }
+        .wave-4 { background: white; color: #333; border: 4px solid #f7d117; }
+        .wave-5 { background: linear-gradient(45deg, #f7d117, #ffffff); color: #333; }
+
+        .qr-box { width: 85px; height: 85px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; position: absolute; right: 20px; bottom: 20px; border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .qr-box img { max-width: 90%; max-height: 90%; display: none; object-fit: contain; }
+        
+        .info h2 { margin: 2px 0; font-size: 22px; font-weight: bold; }
+        .info p { margin: 0; font-size: 13px; opacity: 0.8; }
+        .acc-no { font-family: 'Courier New', monospace; font-size: 19px; font-weight: bold; margin-top: 8px; letter-spacing: 1px; }
+
+        /* Input Form Controls */
+        .controls { width: 100%; max-width: 380px; background: white; padding: 25px; border-radius: 20px; margin-top: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); box-sizing: border-box; }
+        .input-group { margin-bottom: 18px; }
+        label { display: block; font-size: 14px; font-weight: bold; margin-bottom: 8px; color: #444; }
+        input[type="text"], select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; box-sizing: border-box; font-size: 15px; outline: none; transition: 0.3s; }
+        input:focus { border-color: #1a4da1; }
+        
+        /* Custom Upload Box - Fixed Height and Padding */
+        .upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100px; /* အမြင့်ကို ပုံသေ သတ်မှတ်လိုက်ပါတယ် */
+            padding: 10px; /* padding ကို လျှော့ချလိုက်ပါတယ် */
+            border: 2px dashed #bbb;
+            border-radius: 12px;
+            cursor: pointer;
+            color: #777;
+            background: #fafafa;
+            transition: 0.3s;
+            box-sizing: border-box; /* padding ကြောင့် အပြင်မထွက်အောင် */
+        }
+        .upload-label:hover { border-color: #1a4da1; color: #1a4da1; background: #f0f7ff; }
+        .upload-label i { font-size: 25px; margin-bottom: 8px; } /* Icon size နည်းနည်း လျှော့ပါတယ် */
+        .upload-label span { font-size: 14px; text-align: center; } /* စာလုံးအရွယ်အစား ညှိပါတယ် */
+        input[type="file"] { display: none; }
+
+        .download-btn { width: 100%; max-width: 380px; background: #28a745; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 15px; box-shadow: 0 5px 15px rgba(40,167,69,0.3); transition: 0.3s; }
+        .download-btn:active { transform: scale(0.98); }
+    </style>
+</head>
+<body>
+
+    <div id="captureArea">
+        <div id="cardUI" class="card kbz-1">
+            <div class="header">
+                <h3 id="walletTitle" style="margin:0; font-size: 24px;">KBZPay</h3>
+                <small id="subtitle" style="font-size: 11px; font-weight: 500;">ငွေလွှဲပြီး စလစ်ပို့ပေးပါဗျာ</small>
+            </div>
+            <div class="info">
+                <p>အကောင့်နာမည်</p>
+                <h2 id="viewName">MEMBER NAME</h2>
+                <p style="margin-top:10px;">အကောင့်နံပါတ်</p>
+                <div class="acc-no" id="viewNumber">09 XXX XXX XXX</div>
+            </div>
+            <div class="qr-box">
+                <span id="qrText" style="color:#ccc; font-size:10px; text-align:center;">QR Code<br>တင်ပါ</span>
+                <img id="qrImg" src="" alt="QR">
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="input-group">
+            <label><i class="fa-solid fa-palette"></i> ဒီဇိုင်းရွေးချယ်ပါ</label>
+            <select id="designSelect" onchange="updateDesign()">
+                <optgroup label="KBZ Pay Designs">
+                    <option value="kbz-1">KBZ Classic Blue</option>
+                    <option value="kbz-2">KBZ Gold Stripe</option>
+                    <option value="kbz-3">KBZ Modern Glossy</option>
+                    <option value="kbz-4">KBZ Minimal Dark</option>
+                    <option value="kbz-5">KBZ Sky Fade</option>
+                </optgroup>
+                <optgroup label="Wave Pay Designs">
+                    <option value="wave-1">Wave Classic Yellow</option>
+                    <option value="wave-2">Wave Premium Dark</option>
+                    <option value="wave-3">Wave Curved Style</option>
+                    <option value="wave-4">Wave Clean White</option>
+                    <option value="wave-5">Wave Soft Fade</option>
+                </optgroup>
+            </select>
+        </div>
+        <div class="input-group">
+            <label><i class="fa-solid fa-user"></i> အကောင့်နာမည်</label>
+            <input type="text" id="nameIn" placeholder="အမည်ရိုက်ထည့်ပါ" onkeyup="syncText()">
+        </div>
+        <div class="input-group">
+            <label><i class="fa-solid fa-phone"></i> အကောင့်နံပါတ်</label>
+            <input type="text" id="phoneIn" placeholder="09xxxxxxxxx" onkeyup="syncText()">
+        </div>
+        <div class="input-group">
+            <label><i class="fa-solid fa-qrcode"></i> QR Code ဓာတ်ပုံတင်ရန်</label>
+            <label for="qrFileInput" class="upload-label">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <span id="fileName">ဖိုင်ရွေးရန် နှိပ်ပါ</span>
+            </label>
+            <input type="file" id="qrFileInput" accept="image/*" onchange="uploadQR(event)">
+        </div>
+    </div>
+
+    <button class="download-btn" onclick="download()">
+        <i class="fa-solid fa-download"></i> ပုံအဖြစ် သိမ်းဆည်းမည်
+    </button>
+
+    <script>
+        function syncText() {
+            document.getElementById('viewName').innerText = document.getElementById('nameIn').value || "MEMBER NAME";
+            document.getElementById('viewNumber').innerText = document.getElementById('phoneIn').value || "09 XXX XXX XXX";
+        }
+
+        function updateDesign() {
+            const design = document.getElementById('designSelect').value;
+            const card = document.getElementById('cardUI');
+            const title = document.getElementById('walletTitle');
+            
+            card.className = "card " + design;
+            title.innerText = design.includes('kbz') ? "KBZPay" : "WavePay";
+        }
+
+        function uploadQR(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('fileName').innerText = file.name;
+                const reader = new FileReader();
+                reader.onload = function() {
+                    const img = document.getElementById('qrImg');
+                    img.src = reader.result;
+                    img.style.display = 'block';
+                    document.getElementById('qrText').style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function download() {
+            const btn = document.querySelector('.download-btn');
+            btn.innerText = "ခဏစောင့်ပါ...";
+            html2canvas(document.querySelector("#captureArea"), { 
+                scale: 3, 
+                backgroundColor: null,
+                useCORS: true 
+            }).then(canvas => {
+                let link = document.createElement('a');
+                link.download = 'wallet-card.png';
+                link.href = canvas.toDataURL();
+                link.click();
+                btn.innerHTML = '<i class="fa-solid fa-download"></i> ပုံအဖြစ် သိမ်းဆည်းမည်';
+            });
+        }
+    </script>
+</body>
+</html>
