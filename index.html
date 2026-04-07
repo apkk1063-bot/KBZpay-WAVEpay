@@ -14,8 +14,10 @@
         }
         body { font-family: 'Segoe UI', 'Pyidaungsu', sans-serif; background: #f0f2f5; display: flex; flex-direction: column; align-items: center; padding: 20px; }
         
-        /* Card Preview Area */
-        #captureArea { padding: 10px; background: transparent; }
+        /* === (ပြင်ဆင်ချက်) === */
+        /* Preview area ကို padding မပါဘဲ background transparent ထားပါတယ် */
+        #captureArea { padding: 0; background: transparent; }
+        
         .card { width: 350px; height: 210px; border-radius: 18px; position: relative; color: white; padding: 20px; box-sizing: border-box; overflow: hidden; box-shadow: 0 12px 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; justify-content: space-between; }
 
         /* KBZ Styles */
@@ -39,37 +41,20 @@
         .info p { margin: 0; font-size: 13px; opacity: 0.8; }
         .acc-no { font-family: 'Courier New', monospace; font-size: 19px; font-weight: bold; margin-top: 8px; letter-spacing: 1px; }
 
-        /* Input Form Controls */
         .controls { width: 100%; max-width: 380px; background: white; padding: 25px; border-radius: 20px; margin-top: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); box-sizing: border-box; }
         .input-group { margin-bottom: 18px; }
         label { display: block; font-size: 14px; font-weight: bold; margin-bottom: 8px; color: #444; }
-        input[type="text"], select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; box-sizing: border-box; font-size: 15px; outline: none; transition: 0.3s; }
-        input:focus { border-color: #1a4da1; }
+        input[type="text"], input[type="tel"], select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; box-sizing: border-box; font-size: 15px; outline: none; transition: 0.3s; }
         
-        /* Custom Upload Box - Fixed Height and Padding */
         .upload-label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100px; /* အမြင့်ကို ပုံသေ သတ်မှတ်လိုက်ပါတယ် */
-            padding: 10px; /* padding ကို လျှော့ချလိုက်ပါတယ် */
-            border: 2px dashed #bbb;
-            border-radius: 12px;
-            cursor: pointer;
-            color: #777;
-            background: #fafafa;
-            transition: 0.3s;
-            box-sizing: border-box; /* padding ကြောင့် အပြင်မထွက်အောင် */
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            width: 100%; height: 100px; padding: 10px; border: 2px dashed #bbb; border-radius: 12px;
+            cursor: pointer; color: #777; background: #fafafa; transition: 0.3s; box-sizing: border-box;
         }
         .upload-label:hover { border-color: #1a4da1; color: #1a4da1; background: #f0f7ff; }
-        .upload-label i { font-size: 25px; margin-bottom: 8px; } /* Icon size နည်းနည်း လျှော့ပါတယ် */
-        .upload-label span { font-size: 14px; text-align: center; } /* စာလုံးအရွယ်အစား ညှိပါတယ် */
         input[type="file"] { display: none; }
 
         .download-btn { width: 100%; max-width: 380px; background: #28a745; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 15px; box-shadow: 0 5px 15px rgba(40,167,69,0.3); transition: 0.3s; }
-        .download-btn:active { transform: scale(0.98); }
     </style>
 </head>
 <body>
@@ -118,8 +103,8 @@
             <input type="text" id="nameIn" placeholder="အမည်ရိုက်ထည့်ပါ" onkeyup="syncText()">
         </div>
         <div class="input-group">
-            <label><i class="fa-solid fa-phone"></i> အကောင့်နံပါတ်</label>
-            <input type="text" id="phoneIn" placeholder="09xxxxxxxxx" onkeyup="syncText()">
+            <label><i class="fa-solid fa-phone"></i> အကောင့်နံပါတ် (၁၁ လုံးသာ)</label>
+            <input type="tel" id="phoneIn" placeholder="09xxxxxxxxx" maxlength="11" oninput="validateNumber(this)">
         </div>
         <div class="input-group">
             <label><i class="fa-solid fa-qrcode"></i> QR Code ဓာတ်ပုံတင်ရန်</label>
@@ -136,16 +121,21 @@
     </button>
 
     <script>
+        function validateNumber(input) {
+            let val = input.value.replace(/[^0-9]/g, '');
+            if (val.length > 11) val = val.substring(0, 11);
+            input.value = val;
+            document.getElementById('viewNumber').innerText = val || "09 XXX XXX XXX";
+        }
+
         function syncText() {
             document.getElementById('viewName').innerText = document.getElementById('nameIn').value || "MEMBER NAME";
-            document.getElementById('viewNumber').innerText = document.getElementById('phoneIn').value || "09 XXX XXX XXX";
         }
 
         function updateDesign() {
             const design = document.getElementById('designSelect').value;
             const card = document.getElementById('cardUI');
             const title = document.getElementById('walletTitle');
-            
             card.className = "card " + design;
             title.innerText = design.includes('kbz') ? "KBZPay" : "WavePay";
         }
@@ -165,19 +155,23 @@
             }
         }
 
+        // === (ပြင်ဆင်ချက်) ===
         function download() {
             const btn = document.querySelector('.download-btn');
+            const originalText = btn.innerHTML;
             btn.innerText = "ခဏစောင့်ပါ...";
+            
+            // captureArea အပြင်ဘက် space တွေကို padding: 0 လုပ်ပြီး ဖြတ်ထားပါတယ်
             html2canvas(document.querySelector("#captureArea"), { 
                 scale: 3, 
-                backgroundColor: null,
+                backgroundColor: null, // (အဓိကပြင်ဆင်ချက်) ပုံကို transparent နောက်ခံနဲ့ ထုတ်ပါတယ်
                 useCORS: true 
             }).then(canvas => {
                 let link = document.createElement('a');
                 link.download = 'wallet-card.png';
                 link.href = canvas.toDataURL();
                 link.click();
-                btn.innerHTML = '<i class="fa-solid fa-download"></i> ပုံအဖြစ် သိမ်းဆည်းမည်';
+                btn.innerHTML = originalText;
             });
         }
     </script>
